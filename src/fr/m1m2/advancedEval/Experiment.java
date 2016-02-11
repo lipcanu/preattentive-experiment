@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -33,30 +34,30 @@ public class Experiment {
 	
 	public Experiment() {
 		//input fil (design) 
-		protected File designFile = null;
+		final File designFile = null;
 		//output file: logs
-		protected PrintWriter pwLog = null;
-		protected ArrayList<Trial> allTrials = new ArrayList<Trial>();
-		protected int currentTrial = 0 ;
+		final PrintWriter pwLog = null;
+		final ArrayList<Trial> allTrials = new ArrayList<Trial>();
+		final int currentTrial = 0 ;
 
-		public Experiment(String participant, int block, int trial, File designFile) {
-			//... 
-			loadTrials();
-			initLog;
-			nextTrial;
-		}
+//		public Experiment(String participant, int block, int trial, File designFile) {
+//			//... 
+//			//loadTrials();
+//			initLog();
+//			nextTrial();
+//		}
 
-		public void loadTrials() {
-			//..smth here...
-		}
-
-		public void trialComplete(){
-			Trial trial = allTrials.get(currentTrial);
-			trial.stop;
-			log(trial);
-			currentTrial++;
-			nextTrial();
-		}
+//		public void loadTrials() {
+//			//..smth here...
+//		}
+//
+//		public void trialComplete(){
+//			Trial trial = allTrials.get(currentTrial);
+//			trial.stop;
+//			log(trial);
+//			currentTrial++;
+//			nextTrial();
+//		}
 
 		
 
@@ -74,12 +75,12 @@ public class Experiment {
 				//String participant = parts[0];
 				//TODO check that these are the right data for the right paritcipant
 				//keep only the files that re for one paritcipants
-				if(part[0].equals(participant)) {
+				if(parts[0].equals(participant)) {
 					boolean practice = parts[1].equals("true");
 					int block = Integer.parseInt(parts[2]);
 					int trial = Integer.parseInt(parts[3]);
 					String vv = parts[4];
-					int objectCount = Integer.parseInt(parts[5])
+					int objectCount = Integer.parseInt(parts[5]);
 					//..
 					 Trial t = new Trial(this, practice, block, trial, vv, objectCount);
 					 allTrials.add(t);
@@ -260,6 +261,9 @@ public class Experiment {
 
 		int[] trialsCounter = experiment.trialsCounter("Block", "Trial");
 		System.out.println("trialsCounter "+trialsCounter[0]+", "+trialsCounter[1]);
+		
+		System.out.println("Hello.");
+		
 		starterFrame.getContentPane().add(new JLabel("Block:"));
 		JSpinner spinnerBlock = new JSpinner();
 		spinnerBlock.setModel(new SpinnerNumberModel(1, 1, trialsCounter[0], 1));
