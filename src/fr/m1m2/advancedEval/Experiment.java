@@ -63,6 +63,36 @@ public class Experiment {
 	 }
 	
 	public void start(String participantsHeader, String blockHeader, String trialHeader) {
+		try{
+			BufferedReader br = new BufferedReader(new FileReader( new File("experiment.csv")));
+			String line = br.readLine();
+
+			String[] parts = line.split(",");
+			line = br.readLine();
+			while(line != null) {
+				parts = line.split(",");
+				//String participant = parts[0];
+				//TODO check that these are the right data for the right paritcipant
+				//keep only the files that re for one paritcipants
+				if(part[0].equals(participant)) {
+					boolean practice = parts[1].equals("true");
+					int block = Integer.parseInt(parts[2]);
+					int trial = Integer.parseInt(parts[3]);
+					String vv = parts[4];
+					int objectCount = Integer.parseInt(parts[5])
+					//..
+					 Trial t = new Trial(this, practice, block, trial, vv, objectCount);
+					 allTrials.add(t);
+				}
+				 line = br.readLine();
+			}
+		} catch (FileNotFoundException  e) {
+			e.printStackTrace();
+		} catch(IOException e ){
+			e.printStackTrace();
+		}
+
+
 		// 1. parse the experiment design file for feeding allTrials with the list of trials that should be run for that participant
 		// 2. init the log file (initLog method)
 		// 3. init the graphical scene
