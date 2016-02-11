@@ -261,6 +261,9 @@ public class Experiment {
 
 		int[] trialsCounter = experiment.trialsCounter("Block", "Trial");
 		System.out.println("trialsCounter "+trialsCounter[0]+", "+trialsCounter[1]);
+		
+		System.out.println("Hello.");
+		
 		starterFrame.getContentPane().add(new JLabel("Block:"));
 		JSpinner spinnerBlock = new JSpinner();
 		spinnerBlock.setModel(new SpinnerNumberModel(1, 1, trialsCounter[0], 1));
