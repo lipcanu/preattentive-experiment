@@ -17,6 +17,24 @@ public class Trial {
 		this.targetChange = targetChange;
 		this.nonTargetsCount = nonTargetsCount;
 		this.experiment = experiment;
+		
+		
 	}
+	public void displayInstructions(){
+		//...
+	}
+	public void hideInstructions(){
+		//experiment.getCanvas().removeShapes(experiment.getInstructions());
+	}
+	
+	public void start(){
+		//...
+		// install the graphical listener and the user input listener
+		//call experiment.trialCompleted(); when appropriate
+	}
+	public void stop(){
+		
+	}
+	
 	
 }
