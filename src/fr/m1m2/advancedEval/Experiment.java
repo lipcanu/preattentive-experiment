@@ -31,7 +31,36 @@ public class Experiment {
 	protected ArrayList<Trial> allTrials = new ArrayList<Trial>();
 	protected int currentTrial = 0;
 	
-	public Experiment() { }
+	public Experiment() {
+		//input fil (design) 
+		protected File designFile = null;
+		//output file: logs
+		protected PrintWriter pwLog = null;
+		protected ArrayList<Trial> allTrials = new ArrayList<Trial>();
+		protected int currentTrial = 0 ;
+
+		public Experiment(String participant, int block, int trial, File designFile) {
+			//... 
+			loadTrials();
+			initLog;
+			nextTrial;
+		}
+
+		public void loadTrials() {
+			//..smth here...
+		}
+
+		public void trialComplete(){
+			Trial trial = allTrials.get(currentTrial);
+			trial.stop;
+			log(trial);
+			currentTrial++;
+			nextTrial();
+		}
+
+		
+
+	 }
 	
 	public void start(String participantsHeader, String blockHeader, String trialHeader) {
 		// 1. parse the experiment design file for feeding allTrials with the list of trials that should be run for that participant
