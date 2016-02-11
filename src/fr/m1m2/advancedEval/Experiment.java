@@ -26,45 +26,53 @@ public class Experiment {
 	protected String participant = "";
 	protected int block = -1;
 	protected int trial = -1;
-
-	protected File designFile = null;
-	
+	protected File designFile = null;	
 	protected ArrayList<Trial> allTrials = new ArrayList<Trial>();
 	protected int currentTrial = 0;
-	
+	//output file: logs
+	final PrintWriter pwLog = null;
+
 	public Experiment() {
-		//input fil (design) 
-		final File designFile = null;
-		//output file: logs
-		final PrintWriter pwLog = null;
-		final ArrayList<Trial> allTrials = new ArrayList<Trial>();
-		final int currentTrial = 0 ;
-
-//		public Experiment(String participant, int block, int trial, File designFile) {
-//			//... 
-//			//loadTrials();
-//			initLog();
-//			nextTrial();
-//		}
-
-//		public void loadTrials() {
-//			//..smth here...
-//		}
-//
-//		public void trialComplete(){
-//			Trial trial = allTrials.get(currentTrial);
-//			trial.stop;
-//			log(trial);
-//			currentTrial++;
-//			nextTrial();
-//		}
-
+			//TODO
 		
+			//initLog();
+			//nextTrial();
+		}
 
-	 }
 	
-	public void start(String participantsHeader, String blockHeader, String trialHeader) {
+	public void start() {
+		loadTrials();
+		initLog();
+		nextTrial();
+	}
+
+	public void trialComplete(){
+			Trial trial = allTrials.get(currentTrial);
+			trial.stop();
+			log(trial);
+			currentTrial++;
+			nextTrial();
+		}
+		
+	public void log(Trial trial){ 
+		//TODO
+		}
+	public void stop(){
+		//display a thank you message
+		}
+		
+	public void nextTrial(){
+		if(currentTrial >= allTrials.size()){
+				stop();
+			}
+		Trial trial = allTrials.get(currentTrial);
+		//trial.displayInstructions();
+		}
+	 
+	
+	public void loadTrials() {
 		try{
+			System.out.println("hello");
 			BufferedReader br = new BufferedReader(new FileReader( new File("experiment.csv")));
 			String line = br.readLine();
 
@@ -84,6 +92,7 @@ public class Experiment {
 					//..
 					 Trial t = new Trial(this, practice, block, trial, vv, objectCount);
 					 allTrials.add(t);
+					 System.out.println(line);
 				}
 				 line = br.readLine();
 			}
@@ -104,9 +113,6 @@ public class Experiment {
 		// ...
 	}
 	
-	public void nextTrial() {
-		// ...
-	}
 	
 	/*******************************/
 	/******GETTERS AND SETTERS******/
@@ -229,6 +235,7 @@ public class Experiment {
 	/*******************************/
 	
 	public static void main(String[] args) {
+		System.out.println("start");
 		final Experiment experiment = new Experiment();
 
 		final JFrame starterFrame = new JFrame("Experiment starter");
@@ -237,6 +244,8 @@ public class Experiment {
 		File experimentFile = new File("experiment.csv");
 		experiment.setDesignFile(experimentFile);
 
+		System.out.println("1");
+		
 		ArrayList<String> participantsList = experiment.participantsList("Participant");
 		String[] participantsArray = new String[participantsList.size()];
 		int i = 0;
@@ -245,6 +254,9 @@ public class Experiment {
 			participantsArray[i] = s;
 			i++;
 		}
+		
+		System.out.println("2");
+		
 		JComboBox<String> comboParticipants = new JComboBox<String>(participantsArray);
 		starterFrame.getContentPane().add(new JLabel("Participant ID:"));
 		starterFrame.getContentPane().add(comboParticipants);
@@ -291,7 +303,7 @@ public class Experiment {
 		starterFrame.getContentPane().add(goButton);
 		goButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				experiment.start("Participant", "Block", "Trial");
+				experiment.start();
 				starterFrame.setVisible(false);
 			}
 		});
@@ -299,7 +311,12 @@ public class Experiment {
 		starterFrame.pack();
 		starterFrame.setVisible(true);
 		starterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	}
 
+	public Object getInstructions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
