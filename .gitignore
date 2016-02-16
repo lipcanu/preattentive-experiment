@@ -52,3 +52,5 @@ bin/fr/m1m2/advancedEval/Experiment$4.class
 bin/fr/m1m2/advancedEval/Experiment.class
 *.class
 /bin/
+
+bin/fr/m1m2/advancedEval/Trial.class

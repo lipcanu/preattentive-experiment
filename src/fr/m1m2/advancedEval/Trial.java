@@ -12,6 +12,7 @@ import java.util.Random;
 
 import fr.lri.swingstates.canvas.CEllipse;
 import fr.lri.swingstates.canvas.CExtensionalTag;
+import fr.lri.swingstates.canvas.CRectangle;
 import fr.lri.swingstates.canvas.CShape;
 import fr.lri.swingstates.canvas.CText;
 import fr.lri.swingstates.canvas.Canvas;
@@ -28,17 +29,65 @@ public class Trial {
 	protected int marginWidth;
 	protected int marginHeight;
 	protected int radius = 40;
-	
+	protected long startTime;
+	protected long endTime;
+	protected long duration;
+	protected boolean error = false;
+	protected int oddX;
+	protected int oddY;
+
 
 	protected CExtensionalTag instructions = new CExtensionalTag() { };
 
+	protected CExtensionalTag shapes = new CExtensionalTag() { };
+
+	// enter key listener
 	protected KeyListener enterListener = new KeyAdapter() {
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 				start();
+				startTime = System.currentTimeMillis(); // start timer
 			}
 		};
 	};
+
+	// space bar listener
+	protected KeyListener spaceBarListener = new KeyAdapter() {
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+				validateChoice();
+				endTime = System.currentTimeMillis(); // stop timer
+			}
+		};
+	};
+
+	// mouse listener
+	protected MouseListener clickListener = new MouseAdapter() {
+		public void mousePressed(MouseEvent e) {
+			
+			System.out.println("this is the mouse " + e.getX() + ", " + e.getY());
+			System.out.println("this is the odd one " + oddX + ", " + oddY);
+			System.out.println("the distance " + distance(e.getX(), e.getY(), oddX, oddY));
+
+			// TODO
+			// if clicked shape correct
+			if (distance(e.getX(), e.getY(), oddX, oddY) < 30) {
+				error = false;		
+			} else {
+				error = true;		
+			}
+			
+			System.out.println("error is " + error);
+			
+			stop(); // end trial
+		};
+	};
+	
+	public int distance (float x1, float y1, float x2, float y2) {
+		// http://stackoverflow.com/a/14431081
+		int distance = (int)Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		return distance;
+	}
 
 	protected Experiment experiment;
 
@@ -86,54 +135,150 @@ public class Trial {
 		canvas.removeShapes(instructions);
 
 		System.out.println("start: "+this);
+
+		// a key listener for space bar that will call the validateChoice method
+		canvas.addKeyListener(spaceBarListener);
+		int marginHeight;
+		int marginWidth;
+		int x;
+		int y;
+		
 		// TODO
 		// display graphical scene with the matrix of shapes
-		// install a key listener for space bar that will call the validateChoice method
 		switch(objectsCount){
+		
 		case(9):
-			int activeAreaWidth = 400;
-			int marginWidth = 300;
-			int x = (canvasWidth-(marginWidth*2))/3;
-			drawShapes(canvas, marginWidth, marginWidth, x, x);	
+			marginWidth = 300;
+			x = (canvasWidth-(marginWidth*2))/3;
+			drawShapes(canvas, marginWidth, marginWidth, x, x, 3, 3);
+		break;
+		
 		case(24):
-			
+			marginWidth = 150;
+			marginHeight = 250;
+			x = (canvasWidth-(marginWidth*2))/6;
+			y = (canvasHeight-(marginHeight*2))/4;
+			drawShapes(canvas, marginWidth, marginHeight, x, y, 6, 4);
+		break;
+
+		case(30):
+			marginWidth = 200;
+			marginHeight = 200;
+			x = (canvasWidth-(marginWidth*2))/5;
+			y = (canvasHeight-(marginHeight*2))/6;
+			drawShapes(canvas, marginWidth, marginHeight, x, y, 5, 6);
+		break;
+
 		}
+
 	}
-	public void drawShapes(Canvas canvas, int marginWidth, int marginHeight, int x, int y){
+	public void drawShapes(Canvas canvas, int marginWidth, int marginHeight, int x, int y, int rows, int columns){
 		int count = 1;
 		Random rand = new Random();
 		int randomNum = 1 + rand.nextInt(objectsCount);
-		for(int i=0; i<objectsCount/3; i++){
-			for(int j=0; j<objectsCount/3; j++){
-				
-				CEllipse circle = new CEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
-				canvas.addShape(circle);
+		for(int i=0; i<objectsCount/rows; i++){
+			for(int j=0; j<objectsCount/columns; j++){
+
+				if (count == randomNum) {
+					CRectangle rect = canvas.newRectangle(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
+					rect.addTag(shapes);
+<<<<<<< HEAD
+					
+=======
+					oddX = (x*i)+x/2 + marginWidth;
+					oddY = (y*j)+y/2 + marginHeight;
+>>>>>>> francesco
+				} else {
+					CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+					circle.addTag(shapes);
+					
+					CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
+					CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+					circle2.addTag(shapes);
+					circle3.addTag(shapes);
+					
+				}
+				count++;
+			}
+		}
+	}
+
+	public void drawPlaceHolders(Canvas canvas, int marginWidth, int marginHeight, int x, int y, int rows, int columns){
+		for(int i=0; i<objectsCount/rows; i++){
+			for(int j=0; j<objectsCount/columns; j++){
+
+				CText text = canvas.newText((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
+				text.addTag(shapes);
 			}
 		}
 	}
 
 	public void validateChoice() {
-		// TODO
+
+		System.out.println("validateChoice: "+this);
+
+		Canvas canvas = experiment.getCanvas();
+
 		// remove key listener for space bar
-		// display placeholders to replace the actual shapes
-		// install a mouse listener for listening clicks on a shape that will call stop		
+		canvas.removeKeyListener(spaceBarListener);
+
+		// clear the scene from shapes
+		canvas.removeShapes(shapes);
+
+		int marginWidth;
+		int x;
+		
+		// display place holders to replace the actual shapes
+		switch(objectsCount){
+		
+		case(9):
+			//int activeAreaWidth = 400;
+			marginWidth = 300;
+			x = (canvasWidth-(marginWidth*2))/3;
+			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 3, 3);	
+		break;
+		case(24):
+			marginWidth = 150;
+			x = (canvasWidth-(marginWidth*2))/6;
+			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 6, 4);
+		break;
+		case(30):
+			marginWidth = 150;
+			x = (canvasWidth-(marginWidth*2))/6;
+			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 5, 6);
+		break;
+		}
+
+		// a mouse listener for listening clicks on a shape that will call stop	
+		canvas.addMouseListener(clickListener);
 	}
 
 	public void stop() {
 		experiment.log(this);
-		
-		// TODO
+
+		Canvas canvas = experiment.getCanvas();
+
+		// clear the scene from place holders
+		canvas.removeShapes(shapes);
+
 		// remove mouse listener for listening clicks on a shape
+		canvas.removeMouseListener(clickListener);
 	}
 
 	public long getDuration() {
-		// TODO should return the perception time recorded for this trial
-		return 0;
+		duration =  endTime - startTime;
+		return duration;	
 	}
 
 	public int error() {
 		// TODO should return 1 in case of error, 0 otherwise 
+		
+		if (error) {
+			return 1;
+		} else {
+		
 		return 0;
+		}
 	}
 
 
@@ -184,7 +329,7 @@ public class Trial {
 	public void setExperiment(Experiment experiment) {
 		this.experiment = experiment;
 	}
-	
+
 	public String toString() {
 		return practice+","+block+","+trial+","+objectsCount+","+visualVariable;
 	}
