@@ -53,7 +53,7 @@ public class Experiment {
 
 		// 3. init the graphical scene
 		JFrame frame = new JFrame("Experiment -- preattention");
-		canvas = new Canvas(1400, 1200);
+		canvas = new Canvas(1000, 1000);
 		frame.getContentPane().add(canvas);
 		frame.pack();
 		frame.setVisible(true);
