@@ -12,6 +12,7 @@ import java.util.Random;
 
 import fr.lri.swingstates.canvas.CEllipse;
 import fr.lri.swingstates.canvas.CExtensionalTag;
+import fr.lri.swingstates.canvas.CRectangle;
 import fr.lri.swingstates.canvas.CShape;
 import fr.lri.swingstates.canvas.CText;
 import fr.lri.swingstates.canvas.Canvas;
@@ -31,6 +32,8 @@ public class Trial {
 	
 
 	protected CExtensionalTag instructions = new CExtensionalTag() { };
+	
+	protected CExtensionalTag shapes = new CExtensionalTag() { };
 
 	// enter key listener
 	protected KeyListener enterListener = new KeyAdapter() {
@@ -119,22 +122,35 @@ public class Trial {
 		for(int i=0; i<objectsCount/3; i++){
 			for(int j=0; j<objectsCount/3; j++){
 				
+				
+				if (count == randomNum) {
+					CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+					rect.addTag(shapes);
+				} else {
 				CEllipse circle = new CEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
 				canvas.addShape(circle);
+				circle.addTag(shapes);
+				}
+				count++;
 			}
 		}
 	}
 
 	public void validateChoice() {
-		
-		System.out.println("validaChoice: "+this);
+				
+		System.out.println("validateChoice: "+this);
 		
 		Canvas canvas = experiment.getCanvas();
+
 		// remove key listener for space bar
 		canvas.removeKeyListener(spaceBarListener);
 		
 		// TODO
 		// display placeholders to replace the actual shapes
+		// clear the scene from shapes
+		canvas.removeShapes(shapes);
+		
+		// TODO
 		// install a mouse listener for listening clicks on a shape that will call stop		
 	}
 
