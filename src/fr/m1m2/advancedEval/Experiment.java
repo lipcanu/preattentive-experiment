@@ -1,5 +1,6 @@
 package fr.m1m2.advancedEval;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.swing.JButton;
@@ -21,96 +23,150 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import fr.lri.swingstates.canvas.CText;
+import fr.lri.swingstates.canvas.Canvas;
+
 public class Experiment {
-	
+
+	public static Font FONT = new Font("Helvetica", Font.PLAIN, 20);
+
 	protected String participant = "";
 	protected int block = -1;
 	protected int trial = -1;
 
 	protected File designFile = null;
-	
+	protected PrintWriter pwLog = null;
+
 	protected ArrayList<Trial> allTrials = new ArrayList<Trial>();
 	protected int currentTrial = 0;
-	
-	public Experiment() {
-		//input fil (design) 
-		final File designFile = null;
-		//output file: logs
-		final PrintWriter pwLog = null;
-		final ArrayList<Trial> allTrials = new ArrayList<Trial>();
-		final int currentTrial = 0 ;
 
-//		public Experiment(String participant, int block, int trial, File designFile) {
-//			//... 
-//			//loadTrials();
-//			initLog();
-//			nextTrial();
-//		}
+	protected Canvas canvas;
 
-//		public void loadTrials() {
-//			//..smth here...
-//		}
-//
-//		public void trialComplete(){
-//			Trial trial = allTrials.get(currentTrial);
-//			trial.stop;
-//			log(trial);
-//			currentTrial++;
-//			nextTrial();
-//		}
+	public Experiment() { }
 
-		
+	public void start() {
+		// 1. parse the experiment design file for feeding allTrials with the list of trials that should be run for that participant
+		loadTrials();
 
-	 }
-	
-	public void start(String participantsHeader, String blockHeader, String trialHeader) {
-		try{
-			BufferedReader br = new BufferedReader(new FileReader( new File("experiment.csv")));
+		// 2. init the log file (initLog method)
+		initLog();
+
+		// 3. init the graphical scene
+		JFrame frame = new JFrame("Experiment -- preattention");
+		canvas = new Canvas(1000, 1000);
+		frame.getContentPane().add(canvas);
+		frame.pack();
+		frame.setVisible(true);
+
+		// 4. start the first trial (nextTrial method)
+		nextTrial();
+	}
+
+	public void loadTrials() {
+		allTrials.clear();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(designFile));
 			String line = br.readLine();
-
 			String[] parts = line.split(",");
 			line = br.readLine();
 			while(line != null) {
 				parts = line.split(",");
-				//String participant = parts[0];
-				//TODO check that these are the right data for the right paritcipant
-				//keep only the files that re for one paritcipants
-				if(parts[0].equals(participant)) {
-					boolean practice = parts[1].equals("true");
-					int block = Integer.parseInt(parts[2]);
-					int trial = Integer.parseInt(parts[3]);
-					String vv = parts[4];
-					int objectCount = Integer.parseInt(parts[5]);
-					//..
-					 Trial t = new Trial(this, practice, block, trial, vv, objectCount);
-					 allTrials.add(t);
+				if(parts[0].compareTo(participant) == 0) {
+					int b = Integer.parseInt(parts[2]);
+					int t = Integer.parseInt(parts[3]);
+					if(b > block || (b == block && t >= trial)) {
+						allTrials.add(new Trial(
+								this,
+								parts[1].equals("true"),
+								b,
+								t,
+								parts[4],
+								Integer.parseInt(parts[5])));
+					}
 				}
-				 line = br.readLine();
+				line = br.readLine();
 			}
-		} catch (FileNotFoundException  e) {
+			br.close();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch(IOException e ){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
 
-		// 1. parse the experiment design file for feeding allTrials with the list of trials that should be run for that participant
-		// 2. init the log file (initLog method)
-		// 3. init the graphical scene
-		// 4. start the first trial (nextTrial method)
-	}
-	
 	public void initLog() {
-		// ...
+		// does not work on Windows
+		// String logFileName = "log_S"+participant+"_"+(new Date()).toString()+".csv";
+		// should work on all systems
+		String logFileName = "log_S"+participant+"_"+System.currentTimeMillis()+".csv";
+		File logFile = new File(logFileName);
+		try {
+			pwLog = new PrintWriter(logFile);
+			String header =
+					"Time\t"
+							+"Participant\t"
+							+"Block\t"
+							+"Trial\t"
+							+"TargetChange\t"
+							+"ObjectsCount\t"
+							+"Duration\t"
+							+"Error\t"
+							+"Practice\n";
+			pwLog.print(header);
+			pwLog.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void nextTrial() {
-		// ...
+		if(currentTrial >= allTrials.size()) {
+			stop();
+		} else {
+			Trial trial = allTrials.get(currentTrial);
+			System.out.println("block:"+trial.getBlock()+" - trial:"+trial.getTrial());
+			trial.displayInstructions();
+			canvas.requestFocus();
+		}
 	}
-	
+
+	public void stop() {
+		CText text1 = canvas.newText(0, 0, "End of the experiment", FONT);
+		CText text2 = canvas.newText(0, 50, "Thank you very much!", FONT);
+		double dx = canvas.getWidth()/2 - text2.getCenterX();
+		double dy = canvas.getHeight()/2 - text2.getCenterY();
+		text1.translateBy(dx, dy);
+		text2.translateBy(dx, dy);
+		canvas.setAntialiased(true);
+	}
+
+	public void log(Trial trial) {
+		String line = new Date() + "\t"
+				+ participant + "\t"
+				+ trial.getBlock() + "\t"
+				+ trial.getTrial() + "\t"
+				+ trial.getVisualVariable() + "\t"
+				+ trial.getObjectsCount() + "\t"
+				+ trial.getDuration() + "\t"
+				+ trial.error() + "\t"
+				+ trial.isPractice() + "\n";
+		pwLog.print(line);
+		pwLog.flush();
+
+		if(trial.error() == 0) {
+			currentTrial++;
+		}
+		nextTrial();
+	}
+
 	/*******************************/
 	/******GETTERS AND SETTERS******/
 	/*******************************/
+
+	public Canvas getCanvas() {
+		return canvas;
+	}
 
 	public String getParticipant() {
 		return participant;
@@ -143,11 +199,11 @@ public class Experiment {
 	public void setDesignFile(File designFile) {
 		this.designFile = designFile;
 	}
-	
+
 	/*********************************************/
 	/******METHODS TO START AT A GIVEN POINT******/
 	/*********************************************/
-	
+
 	/**
 	 * @param participantsHeader the name of the column where the participant ID can be found
 	 * @return the list of participants found in the experiment file
@@ -183,11 +239,11 @@ public class Experiment {
 		}
 		return participants;
 	}
-	
+
 	/**
 	 * @param blockHeader the name of the column where the block number can be found
 	 * @param trialHeader the name of the column where the trial number ID can be found
-	 * @return an array of size 2 containing the number of blocks in its first cell and the maximum number of trials per block in its second cell 
+	 * @return an array of size 2 containing the number of blocks in its first cell and the maximum number of trials per block in its second cell
 	 */
 	public int[] trialsCounter(String blockHeader, String trialHeader) {
 		int[] res = new int[2];
@@ -223,11 +279,11 @@ public class Experiment {
 		}
 		return res;
 	}
-	
+
 	/*******************************/
 	/*************MAIN**************/
 	/*******************************/
-	
+
 	public static void main(String[] args) {
 		final Experiment experiment = new Experiment();
 
@@ -260,10 +316,7 @@ public class Experiment {
 		experiment.setTrial(0);
 
 		int[] trialsCounter = experiment.trialsCounter("Block", "Trial");
-		System.out.println("trialsCounter "+trialsCounter[0]+", "+trialsCounter[1]);
-		
-		System.out.println("Hello.");
-		
+//		System.out.println("trialsCounter "+trialsCounter[0]+", "+trialsCounter[1]);
 		starterFrame.getContentPane().add(new JLabel("Block:"));
 		JSpinner spinnerBlock = new JSpinner();
 		spinnerBlock.setModel(new SpinnerNumberModel(1, 1, trialsCounter[0], 1));
@@ -291,7 +344,7 @@ public class Experiment {
 		starterFrame.getContentPane().add(goButton);
 		goButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				experiment.start("Participant", "Block", "Trial");
+				experiment.start();
 				starterFrame.setVisible(false);
 			}
 		});
