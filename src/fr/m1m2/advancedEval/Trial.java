@@ -8,12 +8,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Random;
 
-import fr.m1m2.swingstates.canvas.CEllipse;
-import fr.m1m2.swingstates.canvas.CExtensionalTag;
-import fr.m1m2.swingstates.canvas.CShape;
-import fr.m1m2.swingstates.canvas.CText;
-import fr.m1m2.swingstates.canvas.Canvas;
+import fr.lri.swingstates.canvas.CEllipse;
+import fr.lri.swingstates.canvas.CExtensionalTag;
+import fr.lri.swingstates.canvas.CShape;
+import fr.lri.swingstates.canvas.CText;
+import fr.lri.swingstates.canvas.Canvas;
 
 public class Trial {
 
@@ -21,7 +22,13 @@ public class Trial {
 	protected int block;
 	protected int trial;
 	protected String visualVariable; // VV
+	protected int canvasWidth = 1000;
+	protected int canvasHeight = 1000;
 	protected int objectsCount;
+	protected int marginWidth;
+	protected int marginHeight;
+	protected int radius = 40;
+	
 
 	protected CExtensionalTag instructions = new CExtensionalTag() { };
 
@@ -82,6 +89,27 @@ public class Trial {
 		// TODO
 		// display graphical scene with the matrix of shapes
 		// install a key listener for space bar that will call the validateChoice method
+		switch(objectsCount){
+		case(9):
+			int activeAreaWidth = 400;
+			int marginWidth = 300;
+			int x = (canvasWidth-(marginWidth*2))/3;
+			drawShapes(canvas, marginWidth, marginWidth, x, x);	
+		case(24):
+			
+		}
+	}
+	public void drawShapes(Canvas canvas, int marginWidth, int marginHeight, int x, int y){
+		int count = 1;
+		Random rand = new Random();
+		int randomNum = 1 + rand.nextInt(objectsCount);
+		for(int i=0; i<objectsCount/3; i++){
+			for(int j=0; j<objectsCount/3; j++){
+				
+				CEllipse circle = new CEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+				canvas.addShape(circle);
+			}
+		}
 	}
 
 	public void validateChoice() {
