@@ -142,70 +142,148 @@ public class Trial {
 		int marginWidth;
 		int x;
 		int y;
-		
+		int colNr;
+		int rowNr;
 		// TODO
 		// display graphical scene with the matrix of shapes
 		switch(objectsCount){
 		
 		case(9):
 			marginWidth = 300;
-			x = (canvasWidth-(marginWidth*2))/3;
-			drawShapes(canvas, marginWidth, marginWidth, x, x, 3, 3);
+			rowNr = 3;
+			x = (canvasWidth-(marginWidth*2))/rowNr;
+			drawShapes(canvas, marginWidth, marginWidth, x, x, rowNr, rowNr);
 		break;
 		
 		case(24):
 			marginWidth = 150;
 			marginHeight = 250;
-			x = (canvasWidth-(marginWidth*2))/6;
-			y = (canvasHeight-(marginHeight*2))/4;
-			drawShapes(canvas, marginWidth, marginHeight, x, y, 6, 4);
+			rowNr = 4;
+			colNr = 6;
+			x = (canvasWidth-(marginWidth*2))/colNr;
+			y = (canvasHeight-(marginHeight*2))/rowNr;
+			drawShapes(canvas, marginWidth, marginHeight, x, y, rowNr, colNr);
 		break;
 
 		case(30):
-			marginWidth = 200;
-			marginHeight = 200;
-			x = (canvasWidth-(marginWidth*2))/5;
-			y = (canvasHeight-(marginHeight*2))/6;
-			drawShapes(canvas, marginWidth, marginHeight, x, y, 5, 6);
+			marginWidth = 150;
+			marginHeight = 150;
+			rowNr = 5;
+			colNr = 6;
+			x = (canvasWidth-(marginWidth*2))/colNr;
+			y = (canvasHeight-(marginHeight*2))/rowNr;
+			drawShapes(canvas, marginWidth, marginHeight, x, y, rowNr, colNr);
 		break;
 
 		}
 
 	}
 	public void drawShapes(Canvas canvas, int marginWidth, int marginHeight, int x, int y, int rows, int columns){
-		int count = 1;
+		int count = 1,count2=0;
 		Random rand = new Random();
 		int randomNum = 1 + rand.nextInt(objectsCount);
+		boolean[] tmp={false,false,false,false,false,false};
+
+
+		
 		for(int i=0; i<objectsCount/rows; i++){
 			for(int j=0; j<objectsCount/columns; j++){
 
 				if (count == randomNum) {
-					CRectangle rect = canvas.newRectangle(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
-					rect.addTag(shapes);
 
+					if(visualVariable.equals("VV1")){
+						CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth , ((y*j)+y/2)  + marginHeight, radius, radius);
+						rect.addTag(shapes);
+					}else if(visualVariable.equals("VV2")){
+						CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth - (radius/2), (y*j)+y/2 - (radius/2) + marginHeight, radius, radius);
+						circle.addTag(shapes);
+					}else if(visualVariable.equals("VV1VV2")){
+						CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
+						rect.addTag(shapes);
+					}
 					oddX = (x*i)+x/2 + marginWidth;
 					oddY = (y*j)+y/2 + marginHeight;
 
-				} else {
-					CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
-					circle.addTag(shapes);
-					
-					CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
-					CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
-					circle2.addTag(shapes);
-					circle3.addTag(shapes);
-					
-				}
+				} else if(visualVariable.equals("VV1")){
+						CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+						circle.addTag(shapes);
+					}else if(visualVariable.equals("VV2")){
+						CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+						circle.addTag(shapes);
+						CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
+						CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+						circle2.addTag(shapes);
+						circle3.addTag(shapes);
+					}else if(visualVariable.equals("VV1VV2")){
+						if(count2<6){
+							while(true){
+							Random rand2 = new Random();
+							int randomNum2 = rand2.nextInt(6);
+							if(tmp[randomNum2]==false){
+								if(randomNum2==0||randomNum2==1){
+									CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+									circle.addTag(shapes);
+								}
+								else if(randomNum2==2||randomNum2==3){
+									CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+									circle.addTag(shapes);
+									CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
+									CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+									circle2.addTag(shapes);
+									circle3.addTag(shapes);
+								}
+								else if(randomNum2==4||randomNum2==5){
+									CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth , ((y*j)+y/2)  + marginHeight, radius, radius);
+									rect.addTag(shapes);
+									CRectangle rect2 = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius + 5) , ((y*j)+y/2)  + marginHeight, radius, radius);
+									CRectangle rect3 = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius/2) , ((y*j)+y/2)  + marginHeight - (radius + 5), radius, radius);
+									rect2.addTag(shapes);
+									rect3.addTag(shapes);
+								}
+								tmp[randomNum2]=true;
+								count2++;
+								break;
+							}
+							}
+						}
+						else{
+							Random rand3 = new Random();
+							int randomNum3 = rand3.nextInt(3);
+							if(randomNum3==0){
+								CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+								circle.addTag(shapes);
+							}
+							else if(randomNum3==1){
+								CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+								circle.addTag(shapes);
+								CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
+								CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+								circle2.addTag(shapes);
+								circle3.addTag(shapes);
+							}
+							else if(randomNum3==2){
+								CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth , ((y*j)+y/2)  + marginHeight, radius, radius);
+								rect.addTag(shapes);
+								CRectangle rect2 = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius + 5) , ((y*j)+y/2)  + marginHeight, radius, radius);
+								CRectangle rect3 = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius/2) , ((y*j)+y/2)  + marginHeight - (radius + 5), radius, radius);
+								rect2.addTag(shapes);
+								rect3.addTag(shapes);
+							}
+						}
+						}
+				
+
 				count++;
 			}
 		}
+		
 	}
 
 	public void drawPlaceHolders(Canvas canvas, int marginWidth, int marginHeight, int x, int y, int rows, int columns){
 		for(int i=0; i<objectsCount/rows; i++){
 			for(int j=0; j<objectsCount/columns; j++){
 
-				CText text = canvas.newText((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
+				CText text = canvas.newText((x*i)+ x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
 				text.addTag(shapes);
 			}
 		}
@@ -223,28 +301,43 @@ public class Trial {
 		// clear the scene from shapes
 		canvas.removeShapes(shapes);
 
+		int marginHeight;
 		int marginWidth;
 		int x;
-		
-		// display place holders to replace the actual shapes
+		int y;
+		int colNr;
+		int rowNr;
+		// TODO
+		// display graphical scene with the matrix of shapes
 		switch(objectsCount){
 		
 		case(9):
-			//int activeAreaWidth = 400;
 			marginWidth = 300;
-			x = (canvasWidth-(marginWidth*2))/3;
-			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 3, 3);	
+			rowNr = 3;
+			x = (canvasWidth-(marginWidth*2))/rowNr;
+			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, rowNr, rowNr);
 		break;
+		
 		case(24):
 			marginWidth = 150;
-			x = (canvasWidth-(marginWidth*2))/6;
-			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 6, 4);
+			marginHeight = 250;
+			rowNr = 4;
+			colNr = 6;
+			x = (canvasWidth-(marginWidth*2))/colNr;
+			y = (canvasHeight-(marginHeight*2))/rowNr;
+			drawPlaceHolders(canvas, marginWidth, marginHeight, x, y, rowNr, colNr);
 		break;
+
 		case(30):
 			marginWidth = 150;
-			x = (canvasWidth-(marginWidth*2))/6;
-			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 5, 6);
+			marginHeight = 150;
+			rowNr = 5;
+			colNr = 6;
+			x = (canvasWidth-(marginWidth*2))/colNr;
+			y = (canvasHeight-(marginHeight*2))/rowNr;
+			drawPlaceHolders(canvas, marginWidth, marginHeight, x, y, rowNr, colNr);
 		break;
+
 		}
 
 		// a mouse listener for listening clicks on a shape that will call stop	
