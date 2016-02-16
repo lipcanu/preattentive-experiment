@@ -130,7 +130,8 @@ public class Trial {
 		case(9):
 			marginWidth = 300;
 			x = (canvasWidth-(marginWidth*2))/3;
-			drawShapes(canvas, marginWidth, marginWidth, x, x, 3, 3);	
+			drawShapes(canvas, marginWidth, marginWidth, x, x, 3, 3);
+		break;
 		
 		case(24):
 			marginWidth = 150;
@@ -138,6 +139,7 @@ public class Trial {
 			x = (canvasWidth-(marginWidth*2))/6;
 			y = (canvasHeight-(marginHeight*2))/4;
 			drawShapes(canvas, marginWidth, marginHeight, x, y, 6, 4);
+		break;
 
 		case(30):
 			marginWidth = 200;
@@ -145,6 +147,7 @@ public class Trial {
 			x = (canvasWidth-(marginWidth*2))/5;
 			y = (canvasHeight-(marginHeight*2))/6;
 			drawShapes(canvas, marginWidth, marginHeight, x, y, 5, 6);
+		break;
 
 		}
 
@@ -201,17 +204,17 @@ public class Trial {
 			marginWidth = 300;
 			x = (canvasWidth-(marginWidth*2))/3;
 			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 3, 3);	
-		
+		break;
 		case(24):
 			marginWidth = 150;
 			x = (canvasWidth-(marginWidth*2))/6;
 			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 6, 4);
-
+		break;
 		case(30):
 			marginWidth = 150;
 			x = (canvasWidth-(marginWidth*2))/6;
 			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 5, 6);
-
+		break;
 		}
 
 		// a mouse listener for listening clicks on a shape that will call stop	
