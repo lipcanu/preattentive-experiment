@@ -160,11 +160,18 @@ public class Trial {
 			for(int j=0; j<objectsCount/columns; j++){
 
 				if (count == randomNum) {
-					CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+					CRectangle rect = canvas.newRectangle(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
 					rect.addTag(shapes);
+					
 				} else {
 					CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
 					circle.addTag(shapes);
+					
+					CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
+					CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+					circle2.addTag(shapes);
+					circle3.addTag(shapes);
+					
 				}
 				count++;
 			}
