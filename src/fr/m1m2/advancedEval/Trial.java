@@ -130,7 +130,8 @@ public class Trial {
 		case(9):
 			marginWidth = 300;
 			x = (canvasWidth-(marginWidth*2))/3;
-			drawShapes(canvas, marginWidth, marginWidth, x, x, 3, 3);	
+			drawShapes(canvas, marginWidth, marginWidth, x, x, 3, 3);
+		break;
 		
 		case(24):
 			marginWidth = 150;
@@ -138,6 +139,7 @@ public class Trial {
 			x = (canvasWidth-(marginWidth*2))/6;
 			y = (canvasHeight-(marginHeight*2))/4;
 			drawShapes(canvas, marginWidth, marginHeight, x, y, 6, 4);
+		break;
 
 		case(30):
 			marginWidth = 200;
@@ -145,6 +147,7 @@ public class Trial {
 			x = (canvasWidth-(marginWidth*2))/5;
 			y = (canvasHeight-(marginHeight*2))/6;
 			drawShapes(canvas, marginWidth, marginHeight, x, y, 5, 6);
+		break;
 
 		}
 
@@ -157,11 +160,18 @@ public class Trial {
 			for(int j=0; j<objectsCount/columns; j++){
 
 				if (count == randomNum) {
-					CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+					CRectangle rect = canvas.newRectangle(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
 					rect.addTag(shapes);
+					
 				} else {
 					CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
 					circle.addTag(shapes);
+					
+					CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
+					CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+					circle2.addTag(shapes);
+					circle3.addTag(shapes);
+					
 				}
 				count++;
 			}
@@ -201,17 +211,17 @@ public class Trial {
 			marginWidth = 300;
 			x = (canvasWidth-(marginWidth*2))/3;
 			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 3, 3);	
-		
+		break;
 		case(24):
 			marginWidth = 150;
 			x = (canvasWidth-(marginWidth*2))/6;
 			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 6, 4);
-
+		break;
 		case(30):
 			marginWidth = 150;
 			x = (canvasWidth-(marginWidth*2))/6;
 			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 5, 6);
-
+		break;
 		}
 
 		// a mouse listener for listening clicks on a shape that will call stop	
