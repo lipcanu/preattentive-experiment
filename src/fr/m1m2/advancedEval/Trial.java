@@ -182,12 +182,10 @@ public class Trial {
 				if (count == randomNum) {
 					CRectangle rect = canvas.newRectangle(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
 					rect.addTag(shapes);
-<<<<<<< HEAD
-					
-=======
+
 					oddX = (x*i)+x/2 + marginWidth;
 					oddY = (y*j)+y/2 + marginHeight;
->>>>>>> francesco
+
 				} else {
 					CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
 					circle.addTag(shapes);
