@@ -57,6 +57,16 @@ public class Trial {
 			}
 		};
 	};
+	
+	// mouse listener
+	protected MouseListener clickListener = new MouseAdapter() {
+		public void mousePressed(MouseEvent e) {
+			// TODO
+			// if clicked shape correct
+			
+			stop(); // end trial
+		};
+	};
 
 	protected Experiment experiment;
 
@@ -145,6 +155,7 @@ public class Trial {
 			for(int j=0; j<objectsCount/3; j++){
 				
 				CText text = canvas.newText((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
+				text.addTag(shapes);
 			}
 		}
 	}
@@ -172,15 +183,20 @@ public class Trial {
 			
 		}
 		
-		// TODO
-		// install a mouse listener for listening clicks on a shape that will call stop		
+		// a mouse listener for listening clicks on a shape that will call stop	
+		canvas.addMouseListener(clickListener);
 	}
 
 	public void stop() {
 		experiment.log(this);
 		
-		// TODO
+		Canvas canvas = experiment.getCanvas();
+		
+		// clear the scene from place holders
+		canvas.removeShapes(shapes);
+		
 		// remove mouse listener for listening clicks on a shape
+		canvas.removeMouseListener(clickListener);
 	}
 
 	public long getDuration() {
