@@ -32,6 +32,9 @@ public class Trial {
 	protected long startTime;
 	protected long endTime;
 	protected long duration;
+	protected boolean error = false;
+	protected int oddX;
+	protected int oddY;
 
 
 	protected CExtensionalTag instructions = new CExtensionalTag() { };
@@ -61,13 +64,30 @@ public class Trial {
 	// mouse listener
 	protected MouseListener clickListener = new MouseAdapter() {
 		public void mousePressed(MouseEvent e) {
+			
+			System.out.println("this is the mouse " + e.getX() + ", " + e.getY());
+			System.out.println("this is the odd one " + oddX + ", " + oddY);
+			System.out.println("the distance " + distance(e.getX(), e.getY(), oddX, oddY));
 
 			// TODO
 			// if clicked shape correct
-
+			if (distance(e.getX(), e.getY(), oddX, oddY) < 30) {
+				error = false;		
+			} else {
+				error = true;		
+			}
+			
+			System.out.println("error is " + error);
+			
 			stop(); // end trial
 		};
 	};
+	
+	public int distance (float x1, float y1, float x2, float y2) {
+		// http://stackoverflow.com/a/14431081
+		int distance = (int)Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		return distance;
+	}
 
 	protected Experiment experiment;
 
@@ -162,7 +182,12 @@ public class Trial {
 				if (count == randomNum) {
 					CRectangle rect = canvas.newRectangle(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
 					rect.addTag(shapes);
+<<<<<<< HEAD
 					
+=======
+					oddX = (x*i)+x/2 + marginWidth;
+					oddY = (y*j)+y/2 + marginHeight;
+>>>>>>> francesco
 				} else {
 					CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
 					circle.addTag(shapes);
@@ -241,13 +266,19 @@ public class Trial {
 	}
 
 	public long getDuration() {
-		duration = startTime - endTime;
+		duration =  endTime - startTime;
 		return duration;	
 	}
 
 	public int error() {
 		// TODO should return 1 in case of error, 0 otherwise 
+		
+		if (error) {
+			return 1;
+		} else {
+		
 		return 0;
+		}
 	}
 
 
