@@ -188,7 +188,7 @@ public class Trial {
 		for(int i=0; i<objectsCount/columns; i++){
 			for(int j=0; j<objectsCount/rows; j++){
 
-				CText text = canvas.newText((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
+				CText text = canvas.newText((x*i)+ x/2 + radius + marginWidth, (y*j)+y/2 + marginHeight + radius, "+", new Font("verdana", Font.PLAIN, 24));
 				text.addTag(shapes);
 			}
 		}
