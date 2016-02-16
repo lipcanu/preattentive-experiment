@@ -190,6 +190,7 @@ public class Trial {
 			for(int j=0; j<objectsCount/columns; j++){
 
 				if (count == randomNum) {
+
 					if(visualVariable.equals("VV1")){
 						CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth , ((y*j)+y/2)  + marginHeight, radius, radius);
 						rect.addTag(shapes);
@@ -271,6 +272,7 @@ public class Trial {
 						}
 						}
 				
+
 				count++;
 			}
 		}
