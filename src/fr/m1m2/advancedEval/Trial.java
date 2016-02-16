@@ -29,6 +29,9 @@ public class Trial {
 	protected int marginWidth;
 	protected int marginHeight;
 	protected int radius = 40;
+	protected long startTime;
+	protected long endTime;
+	protected long duration;
 	
 
 	protected CExtensionalTag instructions = new CExtensionalTag() { };
@@ -40,6 +43,7 @@ public class Trial {
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 				start();
+				startTime = System.currentTimeMillis(); // start timer
 			}
 		};
 	};
@@ -49,6 +53,7 @@ public class Trial {
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 				validateChoice();
+				endTime = System.currentTimeMillis(); // stop timer
 			}
 		};
 	};
@@ -152,12 +157,11 @@ public class Trial {
 
 		// remove key listener for space bar
 		canvas.removeKeyListener(spaceBarListener);
-		
-		// TODO
-		// display placeholders to replace the actual shapes
+				
 		// clear the scene from shapes
 		canvas.removeShapes(shapes);
 		
+		// display place holders to replace the actual shapes
 		switch(objectsCount){
 		case(9):
 			int activeAreaWidth = 400;
@@ -180,8 +184,8 @@ public class Trial {
 	}
 
 	public long getDuration() {
-		// TODO should return the perception time recorded for this trial
-		return 0;
+		duration = startTime - endTime;
+		return duration;	
 	}
 
 	public int error() {
