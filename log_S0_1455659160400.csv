@@ -1,0 +1,7 @@
+Time	Participant	Block	Trial	TargetChange	ObjectsCount	Duration	Error	Practice
+Tue Feb 16 22:46:05 CET 2016	0	0	0	VV1	9	-1120	0	true
+Tue Feb 16 22:46:13 CET 2016	0	1	0	VV2	9	-4445	0	false
+Tue Feb 16 22:46:18 CET 2016	0	1	1	VV1	9	-1726	0	false
+Tue Feb 16 22:46:23 CET 2016	0	1	2	VV1VV2	9	-1486	0	false
+Tue Feb 16 22:46:30 CET 2016	0	1	3	VV2	9	-3416	0	false
+Tue Feb 16 22:46:34 CET 2016	0	1	4	VV1VV2	9	-1368	0	false
