@@ -122,31 +122,37 @@ public class Trial {
 		int marginWidth;
 		int x;
 		int y;
-		
+		int colNr;
+		int rowNr;
 		// TODO
 		// display graphical scene with the matrix of shapes
 		switch(objectsCount){
 		
 		case(9):
 			marginWidth = 300;
-			x = (canvasWidth-(marginWidth*2))/3;
-			drawShapes(canvas, marginWidth, marginWidth, x, x, 3, 3);
+			rowNr = 3;
+			x = (canvasWidth-(marginWidth*2))/rowNr;
+			drawShapes(canvas, marginWidth, marginWidth, x, x, rowNr, rowNr);
 		break;
 		
 		case(24):
 			marginWidth = 150;
 			marginHeight = 250;
-			x = (canvasWidth-(marginWidth*2))/6;
-			y = (canvasHeight-(marginHeight*2))/4;
-			drawShapes(canvas, marginWidth, marginHeight, x, y, 6, 4);
+			rowNr = 4;
+			colNr = 6;
+			x = (canvasWidth-(marginWidth*2))/colNr;
+			y = (canvasHeight-(marginHeight*2))/rowNr;
+			drawShapes(canvas, marginWidth, marginHeight, x, y, rowNr, colNr);
 		break;
 
 		case(30):
-			marginWidth = 200;
-			marginHeight = 200;
-			x = (canvasWidth-(marginWidth*2))/5;
-			y = (canvasHeight-(marginHeight*2))/6;
-			drawShapes(canvas, marginWidth, marginHeight, x, y, 5, 6);
+			marginWidth = 150;
+			marginHeight = 150;
+			rowNr = 5;
+			colNr = 6;
+			x = (canvasWidth-(marginWidth*2))/colNr;
+			y = (canvasHeight-(marginHeight*2))/rowNr;
+			drawShapes(canvas, marginWidth, marginHeight, x, y, rowNr, colNr);
 		break;
 
 		}
@@ -179,8 +185,8 @@ public class Trial {
 	}
 
 	public void drawPlaceHolders(Canvas canvas, int marginWidth, int marginHeight, int x, int y, int rows, int columns){
-		for(int i=0; i<objectsCount/rows; i++){
-			for(int j=0; j<objectsCount/columns; j++){
+		for(int i=0; i<objectsCount/columns; i++){
+			for(int j=0; j<objectsCount/rows; j++){
 
 				CText text = canvas.newText((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
 				text.addTag(shapes);
