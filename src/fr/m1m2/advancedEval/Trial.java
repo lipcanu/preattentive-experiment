@@ -118,46 +118,49 @@ public class Trial {
 
 		// a key listener for space bar that will call the validateChoice method
 		canvas.addKeyListener(spaceBarListener);
-
+		int marginHeight;
 		int marginWidth;
 		int x;
+		int y;
 		
 		// TODO
 		// display graphical scene with the matrix of shapes
 		switch(objectsCount){
 		
 		case(9):
-			//int activeAreaWidth = 400;
 			marginWidth = 300;
 			x = (canvasWidth-(marginWidth*2))/3;
-			drawShapes(canvas, marginWidth, marginWidth, x, x);	
+			drawShapes(canvas, marginWidth, marginWidth, x, x, 3, 3);	
 		
 		case(24):
 			marginWidth = 150;
+			marginHeight = 250;
 			x = (canvasWidth-(marginWidth*2))/6;
-			drawShapes(canvas, marginWidth, marginWidth, x, x);
+			y = (canvasHeight-(marginHeight*2))/4;
+			drawShapes(canvas, marginWidth, marginHeight, x, y, 6, 4);
 
 		case(30):
-			marginWidth = 150;
-			x = (canvasWidth-(marginWidth*2))/6;
-			drawShapes(canvas, marginWidth, marginWidth, x, x);
+			marginWidth = 200;
+			marginHeight = 200;
+			x = (canvasWidth-(marginWidth*2))/5;
+			y = (canvasHeight-(marginHeight*2))/6;
+			drawShapes(canvas, marginWidth, marginHeight, x, y, 5, 6);
 
 		}
 
 	}
-	public void drawShapes(Canvas canvas, int marginWidth, int marginHeight, int x, int y){
+	public void drawShapes(Canvas canvas, int marginWidth, int marginHeight, int x, int y, int rows, int columns){
 		int count = 1;
 		Random rand = new Random();
 		int randomNum = 1 + rand.nextInt(objectsCount);
-		for(int i=0; i<objectsCount/3; i++){
-			for(int j=0; j<objectsCount/3; j++){
+		for(int i=0; i<objectsCount/rows; i++){
+			for(int j=0; j<objectsCount/columns; j++){
 
 				if (count == randomNum) {
 					CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
 					rect.addTag(shapes);
 				} else {
-					CEllipse circle = new CEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
-					canvas.addShape(circle);
+					CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
 					circle.addTag(shapes);
 				}
 				count++;
@@ -165,9 +168,9 @@ public class Trial {
 		}
 	}
 
-	public void drawPlaceHolders(Canvas canvas, int marginWidth, int marginHeight, int x, int y){
-		for(int i=0; i<objectsCount/3; i++){
-			for(int j=0; j<objectsCount/3; j++){
+	public void drawPlaceHolders(Canvas canvas, int marginWidth, int marginHeight, int x, int y, int rows, int columns){
+		for(int i=0; i<objectsCount/rows; i++){
+			for(int j=0; j<objectsCount/columns; j++){
 
 				CText text = canvas.newText((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
 				text.addTag(shapes);
@@ -197,17 +200,17 @@ public class Trial {
 			//int activeAreaWidth = 400;
 			marginWidth = 300;
 			x = (canvasWidth-(marginWidth*2))/3;
-			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x);	
+			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 3, 3);	
 		
 		case(24):
 			marginWidth = 150;
 			x = (canvasWidth-(marginWidth*2))/6;
-			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x);
+			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 6, 4);
 
 		case(30):
 			marginWidth = 150;
 			x = (canvasWidth-(marginWidth*2))/6;
-			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x);
+			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x, 5, 6);
 
 		}
 
