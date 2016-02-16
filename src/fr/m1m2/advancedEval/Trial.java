@@ -32,10 +32,20 @@ public class Trial {
 
 	protected CExtensionalTag instructions = new CExtensionalTag() { };
 
+	// enter key listener
 	protected KeyListener enterListener = new KeyAdapter() {
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 				start();
+			}
+		};
+	};
+	
+	// space bar listener
+	protected KeyListener spaceBarListener = new KeyAdapter() {
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+				validateChoice();
 			}
 		};
 	};
@@ -86,9 +96,12 @@ public class Trial {
 		canvas.removeShapes(instructions);
 
 		System.out.println("start: "+this);
+		
+		// a key listener for space bar that will call the validateChoice method
+		canvas.addKeyListener(spaceBarListener);
+		
 		// TODO
 		// display graphical scene with the matrix of shapes
-		// install a key listener for space bar that will call the validateChoice method
 		switch(objectsCount){
 		case(9):
 			int activeAreaWidth = 400;
@@ -113,8 +126,14 @@ public class Trial {
 	}
 
 	public void validateChoice() {
-		// TODO
+		
+		System.out.println("validaChoice: "+this);
+		
+		Canvas canvas = experiment.getCanvas();
 		// remove key listener for space bar
+		canvas.removeKeyListener(spaceBarListener);
+		
+		// TODO
 		// display placeholders to replace the actual shapes
 		// install a mouse listener for listening clicks on a shape that will call stop		
 	}
