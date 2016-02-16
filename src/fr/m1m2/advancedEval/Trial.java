@@ -122,7 +122,6 @@ public class Trial {
 		for(int i=0; i<objectsCount/3; i++){
 			for(int j=0; j<objectsCount/3; j++){
 				
-				
 				if (count == randomNum) {
 					CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
 					rect.addTag(shapes);
@@ -132,6 +131,15 @@ public class Trial {
 				circle.addTag(shapes);
 				}
 				count++;
+			}
+		}
+	}
+	
+	public void drawPlaceHolders(Canvas canvas, int marginWidth, int marginHeight, int x, int y){
+		for(int i=0; i<objectsCount/3; i++){
+			for(int j=0; j<objectsCount/3; j++){
+				
+				CText text = canvas.newText((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
 			}
 		}
 	}
@@ -149,6 +157,16 @@ public class Trial {
 		// display placeholders to replace the actual shapes
 		// clear the scene from shapes
 		canvas.removeShapes(shapes);
+		
+		switch(objectsCount){
+		case(9):
+			int activeAreaWidth = 400;
+			int marginWidth = 300;
+			int x = (canvasWidth-(marginWidth*2))/3;
+			drawPlaceHolders(canvas, marginWidth, marginWidth, x, x);	
+		case(24):
+			
+		}
 		
 		// TODO
 		// install a mouse listener for listening clicks on a shape that will call stop		
