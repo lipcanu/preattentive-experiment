@@ -35,6 +35,7 @@ public class Trial {
 	protected boolean error = false;
 	protected int oddX;
 	protected int oddY;
+	protected Color green = new Color(46, 204, 113);
 
 
 	protected CExtensionalTag instructions = new CExtensionalTag() { };
@@ -185,6 +186,8 @@ public class Trial {
 		boolean[] tmp={false,false,false,false,false,false};
 
 
+		canvas.setFillPaint(green);
+		canvas.setOutlinePaint(green);
 		
 		for(int i=0; i<objectsCount/rows; i++){
 			for(int j=0; j<objectsCount/columns; j++){
@@ -193,12 +196,16 @@ public class Trial {
 
 					if(visualVariable.equals("VV1")){
 						CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth , ((y*j)+y/2)  + marginHeight, radius, radius);
+						rect.setFillPaint(green);
 						rect.addTag(shapes);
+						
 					}else if(visualVariable.equals("VV2")){
 						CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth - (radius/2), (y*j)+y/2 - (radius/2) + marginHeight, radius, radius);
+						circle.setFillPaint(green);
 						circle.addTag(shapes);
 					}else if(visualVariable.equals("VV1VV2")){
 						CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
+						rect.setFillPaint(green);
 						rect.addTag(shapes);
 					}
 					oddX = (x*i)+x/2 + marginWidth;
@@ -206,13 +213,17 @@ public class Trial {
 
 				} else if(visualVariable.equals("VV1")){
 						CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+						circle.setFillPaint(green);
 						circle.addTag(shapes);
 					}else if(visualVariable.equals("VV2")){
 						CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+						circle.setFillPaint(green);
 						circle.addTag(shapes);
 						CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
 						CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+						circle2.setFillPaint(green);
 						circle2.addTag(shapes);
+						circle3.setFillPaint(green);
 						circle3.addTag(shapes);
 					}else if(visualVariable.equals("VV1VV2")){
 						if(count2<6){
@@ -222,22 +233,29 @@ public class Trial {
 							if(tmp[randomNum2]==false){
 								if(randomNum2==0||randomNum2==1){
 									CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+									circle.setFillPaint(green);
 									circle.addTag(shapes);
 								}
 								else if(randomNum2==2||randomNum2==3){
 									CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+									circle.setFillPaint(green);
 									circle.addTag(shapes);
 									CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
 									CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+									circle2.setFillPaint(green);
 									circle2.addTag(shapes);
+									circle3.setFillPaint(green);
 									circle3.addTag(shapes);
 								}
 								else if(randomNum2==4||randomNum2==5){
 									CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth , ((y*j)+y/2)  + marginHeight, radius, radius);
+									rect.setFillPaint(green);
 									rect.addTag(shapes);
 									CRectangle rect2 = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius + 5) , ((y*j)+y/2)  + marginHeight, radius, radius);
 									CRectangle rect3 = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius/2) , ((y*j)+y/2)  + marginHeight - (radius + 5), radius, radius);
+									rect2.setFillPaint(green);
 									rect2.addTag(shapes);
+									rect3.setFillPaint(green);
 									rect3.addTag(shapes);
 								}
 								tmp[randomNum2]=true;
@@ -251,22 +269,29 @@ public class Trial {
 							int randomNum3 = rand3.nextInt(3);
 							if(randomNum3==0){
 								CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+								circle.setFillPaint(green);
 								circle.addTag(shapes);
 							}
 							else if(randomNum3==1){
 								CEllipse circle = canvas.newEllipse((x*i)+x/2 + marginWidth, (y*j)+y/2 + marginHeight, radius, radius);
+								circle.setFillPaint(green);
 								circle.addTag(shapes);
 								CEllipse circle2 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius + 5), (y*j)+y/2 + marginHeight, radius, radius);
 								CEllipse circle3 = canvas.newEllipse(((x*i)+x/2 + marginWidth) - (radius/2), ((y*j)+y/2 + marginHeight) - (radius + 5), radius, radius);
+								circle2.setFillPaint(green);
 								circle2.addTag(shapes);
+								circle3.setFillPaint(green);
 								circle3.addTag(shapes);
 							}
 							else if(randomNum3==2){
 								CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth , ((y*j)+y/2)  + marginHeight, radius, radius);
+								rect.setFillPaint(green);
 								rect.addTag(shapes);
 								CRectangle rect2 = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius + 5) , ((y*j)+y/2)  + marginHeight, radius, radius);
 								CRectangle rect3 = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius/2) , ((y*j)+y/2)  + marginHeight - (radius + 5), radius, radius);
+								rect2.setFillPaint(green);
 								rect2.addTag(shapes);
+								rect3.setFillPaint(green);
 								rect3.addTag(shapes);
 							}
 						}
