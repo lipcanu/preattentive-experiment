@@ -186,8 +186,6 @@ public class Trial {
 		boolean[] tmp={false,false,false,false,false,false};
 
 
-		canvas.setFillPaint(green);
-		canvas.setOutlinePaint(green);
 		
 		for(int i=0; i<objectsCount/rows; i++){
 			for(int j=0; j<objectsCount/columns; j++){
