@@ -202,7 +202,7 @@ public class Trial {
 						circle.setFillPaint(green);
 						circle.addTag(shapes);
 					}else if(visualVariable.equals("VV1VV2")){
-						CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius/2), ((y*j)+y/2) - (radius/2) + marginHeight, radius, radius);
+						CRectangle rect = canvas.newRectangle((x*i)+x/2 + marginWidth - (radius/2), ((y*j)+y/2) + marginHeight, radius, radius);
 						rect.setFillPaint(green);
 						rect.addTag(shapes);
 					}
@@ -305,9 +305,19 @@ public class Trial {
 	public void drawPlaceHolders(Canvas canvas, int marginWidth, int marginHeight, int x, int y, int rows, int columns){
 		for(int i=0; i<objectsCount/rows; i++){
 			for(int j=0; j<objectsCount/columns; j++){
-
-				CText text = canvas.newText((x*i)+ x/2 + marginWidth, (y*j)+y/2 + marginHeight, "+", new Font("verdana", Font.PLAIN, 24));
-				text.addTag(shapes);
+				if (visualVariable.equals("VV1")) {
+					CText text = canvas.newText((x*i)+ x/2 + marginWidth + 5, (y*j)+y/2 + marginHeight + 5, "+", new Font("verdana", Font.PLAIN, 24));
+					text.addTag(shapes);				
+				}
+				if (visualVariable.equals("VV2")) {
+					CText text = canvas.newText((x*i)+ x/2 + marginWidth, (y*j)+y/2 + marginHeight - 10, "+", new Font("verdana", Font.PLAIN, 24));
+					text.addTag(shapes);				
+				}
+				if (visualVariable.equals("VV1VV2")) {
+					CText text = canvas.newText((x*i)+ x/2 + marginWidth, (y*j)+y/2 + marginHeight - 10, "+", new Font("verdana", Font.PLAIN, 24));
+					text.addTag(shapes);				
+				}
+				
 			}
 		}
 	}
